@@ -1,0 +1,87 @@
+{
+	"users":{
+		"ludovic.j.r.zipsin@gmail.com": {
+			"name": "Ludovic Zipsin",
+			"meetings": {
+				"meetingID_1": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "present",
+					"reason": "",
+					"current_status": "(N/A, there_validate, on my way, unknown, there_close)",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				},
+				"meetingID_2": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "late",
+					"reason": "have to meet with teacher before",
+					"current_status": "there",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				},
+				"meetingID_3": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "absent",
+					"reason": "ill",
+					"current_status": "on my way",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				},
+				"meetingID_4": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				}
+			},
+			"google_calendar": "name of the agenda used for this app meetings on your google account",
+			"number_created_meeting": 4,
+			"my_current_position": "string containing the gps data of my current location",
+			"last_server_communication": "timestamp of the last connection with the server (either for fetching data or whatever)"
+		},
+		"denis.pettens@gmail.com": {
+			"name": "Denis Pettens",
+			"meetings": {
+				"meetingID_1": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"ludovic.j.r.zipsin@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				},
+				"meetingID_5": {
+					"my_position": "string containing the gps position of where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"ludovic.j.r.zipsin@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					}
+				}
+			},
+			"google_calendar": "name of the agenda used for this app meetings on your google account",
+			"number_created_meeting": 2,
+			"my_current_position": "string containing the gps data of my current location",
+			"last_server_communication": "timestamp of the last connection with the server (either for fetching data or whatever)"
+		}
+	},
+	"meetings":{
+			"ludovic.j.r.zipsin@gmail.com_1": {
+				"Title": "name of my meeting (the meeting id is constructed with the )"
+			}
+	}
+}
