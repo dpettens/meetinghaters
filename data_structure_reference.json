@@ -1,0 +1,142 @@
+{
+	"users":{
+		"ludovic.j.r.zipsin@gmail.com": {
+			"name": "Ludovic Zipsin",
+			"meetings": {
+				"meetingID_1": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "present",
+					"reason": "",
+					"current_status": "(N/A, there_validate, on my way, unknown, there_close)",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				},
+				"meetingID_2": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "late",
+					"reason": "have to meet with teacher before",
+					"current_status": "there",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				},
+				"meetingID_3": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "absent",
+					"reason": "ill",
+					"current_status": "on my way",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				},
+				"meetingID_4": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"denis.pettens@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				}
+			},
+			"google_calendar": "name of the agenda used for this app meetings on your google account",
+			"number_created_meeting": 4,
+			"my_current_position": "string containing the gps data of my current location",
+			"last_server_communication": "timestamp of the last connection with the server (either for fetching data or whatever)",
+			"my_wifi_name": "wifi_name OR void if no wifi name"
+		},
+		"denis.pettens@gmail.com": {
+			"name": "Denis Pettens",
+			"meetings": {
+				"meetingID_1": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"ludovic.j.r.zipsin@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				},
+				"meetingID_5": {
+					"my_position_gps": "string containing the gps position of where I should be",
+					"my_position_name": "string containing the name of the position where I should be",
+					"expected_status": "unknown",
+					"reason": "",
+					"current_status": "not coming",
+					"high_level_access": {
+						"ludovic.j.r.zipsin@gmail.com": true,
+						"tata.yoyo@gmail.com": false
+					},
+					"permission_request_from_outside": {
+						"raising_sound": true,
+						"see_location": true,
+						"force_gps": false,
+						"see_wifi_name": true
+					}
+				}
+			},
+			"google_calendar": "name of the agenda used for this app meetings on your google account",
+			"number_created_meeting": 2,
+			"my_current_position": "string containing the gps data of my current location",
+			"last_server_communication": "timestamp of the last connection with the server (either for fetching data or whatever)",
+			"my_wifi_name": "wifi_name OR void if no wifi name"
+		}
+	},
+	"meetings":{
+			"ludovic.j.r.zipsin@gmail.com_1": {
+				"Title": "name of my meeting (the meeting id is constructed with the )",
+				"members": {
+					"denis.pettens@gmail.com": true,
+					"ludovic.j.r.zipsin@gmail.com": true
+				},
+				"position_name": "string containing the name of the meeting location OR void if not setted",
+				"position_gps": "string containing the gps coordinate of the meeting locaion OR void if not setted",
+				"description": "a short description of the meeting purpose",
+				"meeting_start": "timestamp of the starting time",
+				"meeting_end": "timestamp of the ending time",
+				"menber_visibility_before_start": "timestamp of the time before the meeting when we can see private information on the team members",
+				"menber_visibility_after_start": "timestamp of the time before the meeting when we can see private information on the team members"
+			}
+	}
+}
