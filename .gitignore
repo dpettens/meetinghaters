@@ -23,7 +23,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-    
+
 ### Windows ###
 # Windows image file caches
 Thumbs.db
@@ -72,7 +72,7 @@ gen/
 out/
 
 # Gradle files
-.gradle/
+.gradle
 build/
 
 # Local configuration file (sdk path, etc)
@@ -92,3 +92,8 @@ captures/
 
 # Intellij
 *.iml
+.idea/
+
+# No test and androidTest folder
+app/src/androidTest
+app/src/test
