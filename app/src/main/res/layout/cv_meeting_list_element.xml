@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    card_view:cardCornerRadius="0dp"
+    android:layout_margin="1dp">
+
+    <LinearLayout
+        android:id="@+id/cardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <!-- TODO: Button for Status to Add-->
+
+        <LinearLayout
+            android:id="@+id/cardMeetingEssential"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="left"
+            android:layout_weight="60">
+
+            <TextView
+                android:id="@+id/meeting_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meeting Name"
+                android:gravity="top"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="10px"
+                android:textSize="50px"
+                />
+
+            <TextView
+                android:id="@+id/meeting_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meeting Description"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="10px"
+                android:textSize="35px"
+                />
+
+            <!-- TODO: List of icon to quickly show member of the meetings  -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardMeetingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="right"
+            android:gravity="fill_horizontal|right|fill"
+            android:layout_weight="40">
+
+            <TextView
+                android:id="@+id/meeting_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start at:"
+                android:gravity="top|end"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginRight="10px"
+                android:textSize="40px"
+                />
+
+            <TextView
+                android:id="@+id/meeting_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End at:"
+                android:gravity="center_vertical|end"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginRight="10px"
+                android:textSize="40px"
+                />
+
+            <TextView
+                android:id="@+id/meeting_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="At:"
+                android:gravity="bottom|end"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginRight="10px"
+                android:textSize="40px"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/cardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/hexValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/name" />
+
+    </RelativeLayout>
+    -->
+
+</android.support.v7.widget.CardView>
