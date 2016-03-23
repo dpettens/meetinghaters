@@ -3,8 +3,13 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -13,6 +18,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerList);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+
+        recyclerView.setAdapter(new RecyclerAdapter(generateMeetingList()));
+
+    }
+
+    private ArrayList<MeetingItem> generateMeetingList(){
+
+        ArrayList<MeetingItem> meetings = new ArrayList<>();
+        //We generate the list of meeting in this place
+        
+        /*meetings.add(new MeetingItem("P4", "A short meeting", "Start at 12h20", "End at 12h30", "Reaumur"));
+        meetings.add(new MeetingItem("P4 Assistant", "Another short meeting", "Start at 14h20", "End at 14h35", "Paul Otlet"));*/
+        return meetings;
     }
 
     @Override
