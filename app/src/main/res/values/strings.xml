@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Meeting Haters</string>
+    <string name="error_message">An error has occurred. Please try again later !</string>
 </resources>
