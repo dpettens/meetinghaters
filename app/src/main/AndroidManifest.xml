@@ -13,7 +13,7 @@
 
         <activity
             android:name=".SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Base.AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
