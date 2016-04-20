@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.signup_message_dialog));
         progressDialog.show();
 
-        
+
     }
 
     /*
