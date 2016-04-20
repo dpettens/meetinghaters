@@ -2,4 +2,10 @@
     <string name="app_name">Meeting Haters</string>
     <string name="main_activity_label">My Meetings</string>
     <string name="error_message">An error has occurred. Please try again later !</string>
+
+    <string name="name">Name</string>
+    <string name="first_name">First Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create Account</string>
 </resources>
