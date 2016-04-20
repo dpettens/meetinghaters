@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void signUp() {
 
-        if(!validator()) {
+        if(! validator()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_error_message), Toast.LENGTH_LONG).show();
             return;
         }
@@ -85,14 +85,14 @@ public class SignUpActivity extends AppCompatActivity {
          * if one input is invalid, set an error message for this input and return false
          * if the input is valid, remove any error message
          */
-        if (name.isEmpty() || name.length() < 3) {
+        if (name.isEmpty() || name.length() < 2) {
             nameEditText.setError(getString(R.string.name_error));
             valid = false;
         } else {
             nameEditText.setError(null);
         }
 
-        if (firstName.isEmpty() || firstName.length() < 3) {
+        if (firstName.isEmpty() || firstName.length() < 2) {
             firstNameEditText.setError(getString(R.string.first_name_error));
             valid = false;
         } else {
