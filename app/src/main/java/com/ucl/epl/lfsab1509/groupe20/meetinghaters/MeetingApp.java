@@ -2,6 +2,7 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Created by ludovic on 23/03/16.
@@ -10,7 +11,7 @@ public class MeetingApp extends Application {
 
     private String mail = null;
     private String location = null;
-
+    private MyDBHandler dbHandler;
     //connection to mysql
     // TODO
 
@@ -18,10 +19,11 @@ public class MeetingApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MyDBHandler dbHandler = new MyDBHandler(this, null);
+        dbHandler = new MyDBHandler(this, null);
 
         mail = dbHandler.isRegistered();
-        mail = "test";
+        //mail = "test";
+        Log.e("APP LUDOVIC DEBUG : ", "" + mail);
 
         Intent i;
         if (mail != null) {
@@ -45,5 +47,10 @@ public class MeetingApp extends Application {
 
     public String getMail(){
         return mail;
+    }
+
+    public void setMail(String mail){
+        dbHandler.addUser(mail);
+        this.mail = mail;
     }
 }

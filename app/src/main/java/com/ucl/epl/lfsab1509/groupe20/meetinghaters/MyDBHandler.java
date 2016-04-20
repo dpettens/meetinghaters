@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
@@ -23,7 +24,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USER_TABLE = "CREATE TABLE " +
                 TABLE_USER + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_LOCATION
+                + COLUMN_ID + " TEXT PRIMARY KEY," + COLUMN_LOCATION
                 + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
     }
@@ -37,12 +38,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void addUser(String user) {
 
         ContentValues values = new ContentValues();
+        Log.e("VALUES :",values.toString());
         values.put(COLUMN_ID, user);
         values.put(COLUMN_LOCATION, "none");
+        Log.e("VALUES :", values.toString());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.insert(TABLE_USER, null, values);
+        Long test = db.insert(TABLE_USER, null, values);
+        Log.e("SQLITE INSERT :", Long.toString(test));
         db.close();
     }
 
@@ -50,14 +54,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         String query = "Select * FROM " + TABLE_USER;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
 
         String returned = null;
 
         if (cursor.moveToFirst()) {
-            cursor.moveToFirst();
+            //cursor.moveToFirst();
             returned = cursor.getString(0);
             cursor.close();
         } else {

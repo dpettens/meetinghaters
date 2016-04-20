@@ -1,6 +1,7 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -63,6 +64,11 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.signup_message_dialog));
         progressDialog.show();
 
+        MeetingApp app = ((MeetingApp) getApplicationContext());
+        app.setMail(email);
+
+        Intent i = new Intent(this, MeetingListActivity.class);
+        startActivity(i);
 
     }
 
