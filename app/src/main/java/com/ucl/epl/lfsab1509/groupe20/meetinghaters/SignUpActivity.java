@@ -1,10 +1,12 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /*
  * Based on the code of http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
@@ -16,6 +18,11 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText firstNameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+
+    private String name;
+    private String firstName;
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,17 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void signUp() {
 
+        if(!validator()) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_error_message), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.signup_message_dialog));
+        progressDialog.show();
+
+        
     }
 
     /*
@@ -57,10 +75,10 @@ public class SignUpActivity extends AppCompatActivity {
         /*
          * Retrieves the information of the input
          */
-        String name = nameEditText.getText().toString();
-        String firstName = firstNameEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
+        name = nameEditText.getText().toString();
+        firstName = firstNameEditText.getText().toString();
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
 
         /*
          * Check if the name, firstName, email and password are correct following rules

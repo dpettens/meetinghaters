@@ -8,7 +8,9 @@
     <string name="password_edit_text">Password</string>
     <string name="signup_button">Create Account</string>
 
-    <string name="error_message">An error has occurred. Please try again later !</string>
+    <string name="app_error_message">An error has occurred. Please try again later !</string>
+    <string name="signup_error_message">Please correct the errors and try again !</string>
+    <string name="signup_message_dialog">Creating Account...</string>
     <string name="name_error">At least 3 characters</string>
     <string name="first_name_error">At least 3 characters</string>
     <string name="email_error">Enter a valid email address</string>
