@@ -27,7 +27,7 @@ public class MeetingApp extends Application {
         if (mail != null) {
             i=new Intent(MeetingApp.this,MeetingListActivity.class);
         } else {
-            i=new Intent(MeetingApp.this,SignInActivity.class);
+            i=new Intent(MeetingApp.this,SignUpActivity.class);
         }
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
