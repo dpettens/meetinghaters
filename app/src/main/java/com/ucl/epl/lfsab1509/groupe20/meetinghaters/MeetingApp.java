@@ -21,15 +21,25 @@ public class MeetingApp extends Application {
         MyDBHandler dbHandler = new MyDBHandler(this, null);
 
         mail = dbHandler.isRegistered();
+        mail = "test";
 
         Intent i;
         if (mail != null) {
-            i=new Intent(MeetingApp.this,MainActivity.class);
-            startActivity(i);
+            i=new Intent(MeetingApp.this,MeetingListActivity.class);
         } else {
             i=new Intent(MeetingApp.this,SignInActivity.class);
-            startActivity(i);
         }
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        /*final Class<? extends Activity> activityClass;
+        if(mail != null)
+            activityClass = MainActivity.class;
+        else
+            activityClass = SignInActivity.class;
+
+        Intent newActivity = new Intent(MeetingApp.this, activityClass);
+        newActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        MeetingApp.this.startActivity(newActivity);*/
 
     }
 
