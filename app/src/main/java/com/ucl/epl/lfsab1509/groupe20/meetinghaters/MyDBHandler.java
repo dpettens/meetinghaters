@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
@@ -38,15 +37,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void addUser(String user) {
 
         ContentValues values = new ContentValues();
-        Log.e("VALUES :",values.toString());
         values.put(COLUMN_ID, user);
         values.put(COLUMN_LOCATION, "none");
-        Log.e("VALUES :", values.toString());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Long test = db.insert(TABLE_USER, null, values);
-        Log.e("SQLITE INSERT :", Long.toString(test));
         db.close();
     }
 
