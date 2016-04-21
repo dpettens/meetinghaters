@@ -20,7 +20,7 @@ public class MeetingApp extends Application {
         super.onCreate();
         dbHandler = new MyDBHandler(this, null);
 
-        mail = dbHandler.isRegistered();
+        mail = dbHandler.getUser();
 
         Intent i;
         if (mail != null) {
