@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.show();
 
         MeetingApp app = ((MeetingApp) getApplicationContext());
-        app.setMail(email);
+        app.myDBHandler.addUser(email);
 
         Intent i = new Intent(this, MeetingListActivity.class);
         startActivity(i);

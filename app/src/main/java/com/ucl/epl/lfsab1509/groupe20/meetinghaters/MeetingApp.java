@@ -10,20 +10,19 @@ public class MeetingApp extends Application {
 
     private String mail = null;
     private String location = null;
-    private MyDBHandler dbHandler;
+    public MyDBHandler myDBHandler;
     //connection to mysql
     // TODO
-
+    private RemoteDBHandler remoteDBHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        dbHandler = new MyDBHandler(this, null);
-
-        mail = dbHandler.getUser();
+        myDBHandler = new MyDBHandler(this, null);
+        remoteDBHandler = new RemoteDBHandler();
 
         Intent i;
-        if (mail != null) {
+        if (myDBHandler.isRegistered() != null) {
             i=new Intent(MeetingApp.this,MeetingListActivity.class);
         } else {
             i=new Intent(MeetingApp.this,SignUpActivity.class);
@@ -31,14 +30,5 @@ public class MeetingApp extends Application {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
 
-    }
-
-    public String getMail(){
-        return mail;
-    }
-
-    public void setMail(String mail){
-        dbHandler.addUser(mail);
-        this.mail = mail;
     }
 }

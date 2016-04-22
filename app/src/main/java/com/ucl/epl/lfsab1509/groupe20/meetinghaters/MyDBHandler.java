@@ -52,7 +52,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getUser() {
+    public String isRegistered() {
 
         String query = "Select * FROM " + TABLE_USER;
 
@@ -71,6 +71,22 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         db.close();
         return returned;
+    }
+
+    public String getUser(){
+        String query = "Select * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        String user = null;
+
+        cursor.moveToFirst();
+        user = cursor.getString(COLUMN_ID_INDEX);
+        cursor.close();
+        db.close();
+        return user;
     }
 
     public void deleteUser(String user) {
@@ -95,7 +111,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public String getToken(){
-        
+
         String query = "Select * FROM " + TABLE_USER;
 
         SQLiteDatabase db = this.getReadableDatabase();
