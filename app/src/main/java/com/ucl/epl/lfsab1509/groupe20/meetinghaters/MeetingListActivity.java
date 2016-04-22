@@ -1,6 +1,5 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class MeetingListActivity extends AppCompatActivity {
+
+    MeetingApp appInstance = MeetingApp.getAppInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

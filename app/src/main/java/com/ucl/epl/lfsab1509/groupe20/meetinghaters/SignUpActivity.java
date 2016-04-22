@@ -25,6 +25,8 @@ public class SignUpActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+    private MeetingApp appInstance = MeetingApp.getAppInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.signup_message_dialog));
         progressDialog.show();
 
-        MeetingApp app = ((MeetingApp) getApplicationContext());
-        app.myDBHandler.addUser(email);
+        appInstance.myDBHandler.addUser(email);
 
         Intent i = new Intent(this, MeetingListActivity.class);
         startActivity(i);

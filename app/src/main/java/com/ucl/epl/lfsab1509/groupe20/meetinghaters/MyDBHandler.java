@@ -26,10 +26,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USER_TABLE = "CREATE TABLE " +
-                TABLE_USER + "("
-                + COLUMN_ID + " TEXT PRIMARY KEY," + COLUMN_LOCATION
-                + " TEXT," + COLUMN_TOKEN + "TEXT" + ")";
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+                + COLUMN_ID + " TEXT PRIMARY KEY, " + COLUMN_LOCATION
+                + " TEXT," + COLUMN_TOKEN + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
     }
 
