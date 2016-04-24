@@ -7,6 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -32,7 +38,25 @@ public class MeetingListActivity extends AppCompatActivity {
 
         ArrayList<MeetingItem> meetings = new ArrayList<>();
         //We generate the list of meeting in this place
-        
+        JsonRequestHelper request = new JsonRequestHelper(
+                Request.Method.GET,
+                appInstance.remoteDBHandler.apiMeetingURL(),
+                null, //GET REQUEST so no JSONObject to pass
+                appInstance.myDBHandler.getToken(),
+                appInstance.myDBHandler.getUser(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //TODO
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO
+                    }
+                }
+        );
         /*meetings.add(new MeetingItem("P4", "A short meeting", "Start at 12h20", "End at 12h30", "Reaumur"));
         meetings.add(new MeetingItem("P4 Assistant", "Another short meeting", "Start at 14h20", "End at 14h35", "Paul Otlet"));*/
         return meetings;
