@@ -2,7 +2,6 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.Application;
 import android.content.Intent;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -24,7 +23,8 @@ public class MeetingApp extends Application {
     private RequestQueue volleyRequestQueue;
     public RemoteDBHandler remoteDBHandler;
 
-
+    // can be whatever we want, but let's use the generic way
+    private static final String TAG = MeetingApp.class.getSimpleName();
 
     @Override
     public void onCreate() {
@@ -32,10 +32,9 @@ public class MeetingApp extends Application {
         appInstance = this;
         myDBHandler = new MyDBHandler(this, null);
         volleyRequestQueue = Volley.newRequestQueue(getApplicationContext());
-        remoteDBHandler = new RemoteDBHandler(volleyRequestQueue);
+        remoteDBHandler = new RemoteDBHandler(volleyRequestQueue, TAG);
 
         Intent i;
-        Log.e("My name from db is :", ""+myDBHandler.isRegistered());
         if (myDBHandler.isRegistered() != null) {
             i=new Intent(MeetingApp.this,MeetingListActivity.class);
         } else {
