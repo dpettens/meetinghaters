@@ -20,8 +20,8 @@ public class JsonRequestHelper extends JsonObjectRequest {
 
     private JSONObject response;
 
-    private static String refUser = "email";
-    private static String refToken = "token";
+    private static String refUser = "x-key";
+    private static String refToken = "x-access-token";
 
 
     public JsonRequestHelper(int method, String url, JSONObject jsonRequest,
