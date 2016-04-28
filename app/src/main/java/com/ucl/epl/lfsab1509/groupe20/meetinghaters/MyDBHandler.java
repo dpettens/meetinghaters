@@ -101,8 +101,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         String user = this.getUser();
         String query = "UPDATE " + TABLE_USER
-                        + " SET " + COLUMN_LOCATION + " = " + location
-                        + " WHERE " + COLUMN_ID + " = " + user;
+                        + " SET " + COLUMN_LOCATION + " = " + "'" + location + "'"
+                + " WHERE " + COLUMN_ID + " = " + "'" + user + "'" ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -130,8 +130,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void setToken(String token){
         String user = this.getUser();
         String query = "UPDATE " + TABLE_USER
-                + " SET " + COLUMN_TOKEN + " = " + token
-                + " WHERE " + COLUMN_ID + " = " + user;
+                + " SET " + COLUMN_TOKEN + " = " + "'" +  token + "'"
+                + " WHERE " + COLUMN_ID + " = " + "'" + user + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

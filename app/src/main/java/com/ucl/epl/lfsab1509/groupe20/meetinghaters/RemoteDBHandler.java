@@ -11,7 +11,7 @@ public class RemoteDBHandler {
     private static String url = "http://92.222.83.75:8080";
     private static String apiMeeting = "/api/meetings";
     private static String apiUser = "/api/users";
-    private static String apiAuth = "api/authenticate";
+    private static String apiAuth = "/api/authenticate";
 
     private RequestQueue requestQueue;
     private String TAG;

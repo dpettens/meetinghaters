@@ -1,6 +1,7 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -106,7 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        /*JsonRequestHelper innerRequest = new JsonRequestHelper(
+                        JsonRequestHelper innerRequest = new JsonRequestHelper(
                                 Request.Method.POST,
                                 appInstance.remoteDBHandler.apiAuth(),
                                 innerJsonObject,
@@ -140,26 +141,27 @@ public class SignUpActivity extends AppCompatActivity {
 
                         );
                         innerRequest.setPriority(Request.Priority.HIGH);
-                        appInstance.remoteDBHandler.add(innerRequest);*/
+                        appInstance.remoteDBHandler.add(innerRequest);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("First error: ", "yo" /*new Integer(error.networkResponse.statusCode).toString()*/);
+                        Log.e("First error pre: ", "yop" /*new Integer(error.networkResponse.statusCode).toString()*/);
                         progressDialog.hide();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError){
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         } else {
-                            Log.e("First error: ", "yoyo");
-                            /*switch (error.networkResponse.statusCode) {
+                            Log.e("First error post: ", String.valueOf(error.networkResponse.statusCode));
+                            //*
+                            switch (error.networkResponse.statusCode) {
                                 case 409:
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.db_user_exist_error), Toast.LENGTH_LONG).show();
                                     break;
                                 case 500:
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
                                     break;
-                            }*/
+                            }/**/
                         }
                     }
                 }
