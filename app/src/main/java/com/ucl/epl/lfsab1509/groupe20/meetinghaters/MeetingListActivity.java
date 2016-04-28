@@ -6,12 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
-import org.json.JSONObject;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -30,6 +26,13 @@ public class MeetingListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
+        final Button button = (Button) findViewById(R.id.btn_add_meeting);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                //TODO add meeting
+            }
+        });
+
         recyclerView.setAdapter(new RecyclerAdapter(generateMeetingList()));
 
     }
@@ -38,6 +41,7 @@ public class MeetingListActivity extends AppCompatActivity {
 
         ArrayList<MeetingItem> meetings = new ArrayList<>();
         //We generate the list of meeting in this place
+        /*
         JsonRequestHelper request = new JsonRequestHelper(
                 Request.Method.GET,
                 appInstance.remoteDBHandler.apiMeetingURL(),
@@ -56,7 +60,7 @@ public class MeetingListActivity extends AppCompatActivity {
                         //TODO
                     }
                 }
-        );
+        );//*/
         /*meetings.add(new MeetingItem("P4", "A short meeting", "Start at 12h20", "End at 12h30", "Reaumur"));
         meetings.add(new MeetingItem("P4 Assistant", "Another short meeting", "Start at 14h20", "End at 14h35", "Paul Otlet"));*/
         return meetings;
