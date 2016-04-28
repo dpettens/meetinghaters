@@ -8,9 +8,10 @@ import com.android.volley.RequestQueue;
  */
 
 public class RemoteDBHandler {
-    private static String url = "http://92.222.83.75:3000";
+    private static String url = "http://92.222.83.75:8080";
     private static String apiMeeting = "/api/meetings";
     private static String apiUser = "/api/users";
+    private static String apiAuth = "api/authenticate";
 
     private RequestQueue requestQueue;
     private String TAG;
@@ -57,6 +58,7 @@ public class RemoteDBHandler {
         return url + apiUser + "/" + userID;
     }
 
+    public String apiAuth() { return url + apiAuth;}
     /*
     // MEETINGS //////////////////////////////////////
     // no value required

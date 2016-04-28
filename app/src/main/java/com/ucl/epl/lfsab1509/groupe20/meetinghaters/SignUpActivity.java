@@ -1,13 +1,22 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /*
  * Based on the code of http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
@@ -61,15 +70,103 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.signup_message_dialog));
         progressDialog.show();
 
-        appInstance.myDBHandler.addUser(email);
+        //Remote db
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mail", this.email);
+            jsonObject.put("password", this.password);
+            jsonObject.put("firstname", this.firstName);
+            jsonObject.put("surname", this.name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        Intent i = new Intent(this, MeetingListActivity.class);
-        startActivity(i);
+        JsonRequestHelper request = new JsonRequestHelper(
+                Request.Method.POST,
+                appInstance.remoteDBHandler.apiUserURL(),
+                jsonObject, //GET REQUEST so no JSONObject to pass
+                "",
+                "",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("First response: ", response.toString());
+                        appInstance.myDBHandler.addUser(email);
+
+                        JSONObject innerJsonObject = new JSONObject();
+                        try {
+                            innerJsonObject.put("mail", email);
+                            innerJsonObject.put("password", password);
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+
+                        /*JsonRequestHelper innerRequest = new JsonRequestHelper(
+                                Request.Method.POST,
+                                appInstance.remoteDBHandler.apiAuth(),
+                                innerJsonObject,
+                                "",
+                                "",
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.e("Second response: ", response.toString());
+                                        try {
+                                            appInstance.myDBHandler.setToken(response.getString("token"));
+                                        } catch (JSONException e){
+                                            e.printStackTrace();
+                                        }
+                                        Intent i = new Intent(getApplicationContext(), MeetingListActivity.class);
+                                        startActivity(i);
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.e("Second error: ", error.toString());
+                                        progressDialog.hide();
+                                        if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                                        } else if (error.networkResponse.statusCode == 500){
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                        );
+                        innerRequest.setPriority(Request.Priority.HIGH);
+                        appInstance.remoteDBHandler.add(innerRequest);*/
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("First error: ", "yo" /*new Integer(error.networkResponse.statusCode).toString()*/);
+                        progressDialog.hide();
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.e("First error: ", "yoyo");
+                            /*switch (error.networkResponse.statusCode) {
+                                case 409:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.db_user_exist_error), Toast.LENGTH_LONG).show();
+                                    break;
+                                case 500:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                                    break;
+                            }*/
+                        }
+                    }
+                }
+        );
+
+        request.setPriority(Request.Priority.HIGH);
+        this.appInstance.remoteDBHandler.add(request);
 
     }
 

@@ -15,4 +15,7 @@
     <string name="first_name_error">At least 2 characters</string>
     <string name="email_error">Enter a valid email address</string>
     <string name="password_error">Between 4 and 20 alphanumeric characters</string>
+    <string name="connection_error">Connection issue, try again later or be sure to be connected to internet</string>
+    <string name="db_user_exist_error">A user with this email already exist</string>
+    <string name="server_error">An unexpected error occurs with the server. Please try again later</string>
 </resources>
