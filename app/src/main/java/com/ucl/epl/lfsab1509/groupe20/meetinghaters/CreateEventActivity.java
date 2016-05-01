@@ -32,6 +32,10 @@ public class CreateEventActivity extends AppCompatActivity {
     private CardView cardTime;
     private TextView textTimeFrom;
     private TextView textTimeTo;
+    int hourStart = -1;
+    int minuteStart = -1;
+    int hourEnd = -1;
+    int minuteEnd = -1;
 
     private CardView cardMember;
     private TextView textMember;
@@ -61,12 +65,13 @@ public class CreateEventActivity extends AppCompatActivity {
         //cardView date
         cardDate = (CardView) findViewById(R.id.create_card_date);
         textDate = (TextView) findViewById(R.id.create_event_date);
-        datePickerDialog(cardDate);
+        datePickerDialog(cardDate); //DONE
         //cardview time dual from to
         cardTime = (CardView) findViewById(R.id.create_card_time);
         textTimeFrom = (TextView) findViewById(R.id.create_event_time_from);
         textTimeTo = (TextView) findViewById(R.id.create_event_time_to);
         //cardview member 17 char max
+        doubleTimePickerDialog(cardTime);
         cardMember = (CardView) findViewById(R.id.create_card_people);
         textMember = (TextView) findViewById(R.id.create_event_member);
         //cardview location
@@ -141,6 +146,26 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+    public void doubleTimePickerDialog(CardView card){
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment picker = new TimePickerFragment();
+                picker.show(getSupportFragmentManager(), "timePickerStart");
+                hourStart = appInstance.tmpHourStart; appInstance.tmpHourStart = -1;
+                minuteStart = appInstance.tmpMinuteStart; appInstance.tmpMinuteStart = -1;
+                appInstance.toggle = true;
+                picker.show(getSupportFragmentManager(), "timePickerEnd");
+                hourEnd = appInstance.tmpHourEnd; appInstance.tmpHourEnd = -1;
+                minuteEnd = appInstance.tmpMinuteEnd; appInstance.tmpMinuteEnd = -1;
+                appInstance.toggle = false;
+                //final check in the validator in order to be sure that the time and date selected is coherent with the current date and time
+                textTimeFrom.setText(new Integer(hourStart).toString()+":"+new Integer(minuteStart).toString());
+                textTimeTo.setText(new Integer(hourEnd).toString()+":"+new Integer(minuteEnd).toString());
+            }
+        });
+    }
+
     private boolean validator(){
 
         eventName = textName.getText().toString();
@@ -161,7 +186,7 @@ public class CreateEventActivity extends AppCompatActivity {
         }
 
         eventTimeFrom = textTimeFrom.getText().toString();
-        if (eventDate.toString().equals(getString(R.string.meeting_time_from))){
+        if (eventTimeFrom.toString().equals(getString(R.string.meeting_time_from))){
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.meeting_time_from_missing), Toast.LENGTH_LONG).show();
             return false;
         }
@@ -176,6 +201,20 @@ public class CreateEventActivity extends AppCompatActivity {
         eventLocation = textLocation.getText().toString();
         if (eventDate.toString().equals(getString(R.string.meeting_location))){
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_location), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        String dateAndTimeStart = eventTimeFrom.toString() + "-" + eventDate.toString();
+        String dateAndTimeEnd = eventTimeTo.toString() + "-" + eventDate.toString();
+        DateObject dateSelectedStart = new DateObject(dateAndTimeStart);
+        DateObject dateSelectedEnd = new DateObject(dateAndTimeEnd);
+        DateObject dateCurrent = new DateObject(Calendar.getInstance());
+        if (dateSelectedEnd.isPrevious(dateSelectedStart)){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.end_before_start), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (dateSelectedStart.isPrevious(dateCurrent)){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.start_before_current), Toast.LENGTH_LONG).show();
             return false;
         }
 

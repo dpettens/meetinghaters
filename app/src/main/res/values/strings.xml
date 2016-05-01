@@ -32,6 +32,7 @@
     <string name="no_member">You didn\'t add member to the meeting. You will still be able to add them later</string>
     <string name="no_location">You must set a location for the meeting</string>
     <string name="date_too_low">You must select a date in the future.</string>
-
+    <string name="end_before_start">Mismatch in the date. There is an error, please fix it</string>
+    <string name="start_before_current">You must select a date in the future. Please fix it</string>
 
 </resources>

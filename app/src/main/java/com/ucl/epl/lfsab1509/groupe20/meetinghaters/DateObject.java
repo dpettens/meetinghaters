@@ -29,6 +29,17 @@ public class DateObject {
         this.year = c.get(Calendar.YEAR);
     }
 
+    public DateObject(String dateFormat){
+        String[] arrayString = dateFormat.split("-");
+        String[] hourString = arrayString[0].split(":");
+        String[] dateString = arrayString[1].split("/");
+        this.hour = Integer.parseInt(hourString[0]);
+        this.minute = Integer.parseInt(hourString[1]);
+        this.dayOfMonth = Integer.parseInt(dateString[0]);
+        this.month = Integer.parseInt(dateString[1]);
+        this.year = Integer.parseInt(dateString[2]);
+    }
+
     public int getHour() {
         return hour;
     }

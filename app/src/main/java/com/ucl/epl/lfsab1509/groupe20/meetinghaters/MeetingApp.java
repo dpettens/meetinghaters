@@ -28,6 +28,12 @@ public class MeetingApp extends Application {
     public static int tmpMonth = -1;
     public static int tmpDay = -1;
 
+    public boolean toggle = false;
+    public static int tmpHourStart = -1;
+    public static int tmpMinuteStart = -1;
+    public static int tmpHourEnd = -1;
+    public static int tmpMinuteEnd = -1;
+
     // can be whatever we want, but let's use the generic way
     private static final String TAG = MeetingApp.class.getSimpleName();
 
