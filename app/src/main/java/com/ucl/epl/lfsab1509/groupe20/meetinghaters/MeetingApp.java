@@ -23,6 +23,11 @@ public class MeetingApp extends Application {
     private RequestQueue volleyRequestQueue;
     public RemoteDBHandler remoteDBHandler;
 
+
+    public static int tmpYear = -1;
+    public static int tmpMonth = -1;
+    public static int tmpDay = -1;
+
     // can be whatever we want, but let's use the generic way
     private static final String TAG = MeetingApp.class.getSimpleName();
 

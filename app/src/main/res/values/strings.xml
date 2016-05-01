@@ -20,5 +20,18 @@
     <string name="server_error">An unexpected error occurs with the server. Please try again later</string>
 
     <string name="title_create_event">Create Event</string>
+    <string name="error_register_meeting">There is missing element. Please add the missing elements</string>
+    <string name="meeting_name_missing">We must give a name to your meeting</string>
+    <string name="meeting_select_date">Click to select a date</string>
+    <string name="meeting_date_missing">You must select a date to your meeting</string>
+    <string name="meeting_time_from">Start time</string>
+    <string name="meeting_time_to">End time</string>
+    <string name="meeting_time_from_missing">You must give a starting time for your meeting</string>
+    <string name="meeting_location">Pick a location</string>
+
+    <string name="no_member">You didn\'t add member to the meeting. You will still be able to add them later</string>
+    <string name="no_location">You must set a location for the meeting</string>
+    <string name="date_too_low">You must select a date in the future.</string>
+
 
 </resources>
