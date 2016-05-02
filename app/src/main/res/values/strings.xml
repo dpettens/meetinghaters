@@ -1,4 +1,6 @@
 <resources>
+    <string name="google_api">AIzaSyBqLSHlp09TBQ4l46CU3adrEKcVWla4HGI</string>
+
     <string name="app_name">Meeting Haters</string>
     <string name="main_activity_label">My Meetings</string>
 

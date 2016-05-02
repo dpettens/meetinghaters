@@ -1,13 +1,14 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -26,10 +27,11 @@ public class MeetingListActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
-        final Button button = (Button) findViewById(R.id.btn_add_meeting);
-        button.setOnClickListener(new View.OnClickListener(){
+        FloatingActionButton btn_add = (FloatingActionButton) findViewById(R.id.fab_add_meeting);
+        btn_add.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //TODO add meeting
+                Intent i = new Intent(getApplicationContext(), CreateEventActivity.class);
+                startActivity(i);
             }
         });
 
