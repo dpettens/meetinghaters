@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -17,6 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/Base.AppTheme"
         android:name=".MeetingApp">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api"/>
+
 
         <activity
             android:name=".SignUpActivity"
@@ -40,16 +50,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ucl.epl.lfsab1509.groupe20.meetinghaters.MeetingListActivity"/>
 
-            <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_api"/>
 
         </activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
 
     </application>
 </manifest>
