@@ -2,33 +2,43 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.photojoints.multiplecontactpicker.Contact;
 import com.photojoints.multiplecontactpicker.MultipleContactPickerActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-
 public class CreateEventActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+
+
 
     private static final int CONTACT_PICKER_REQUEST = 200;
     private static final int PLACE_PICKER_REQUEST = 300;
+
     MeetingApp appInstance = MeetingApp.getAppInstance();
 
     private EditText textName;
@@ -58,8 +68,8 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
     private CardView cardLocation;
     private TextView textLocation;
 
-    private Button btnAdd;
-    private Button btnCancel;
+    private FloatingActionButton fabAddMeeting;
+    private FloatingActionButton fabCancelMeeting;
 
     private String eventName;
     private String eventDescription;
@@ -68,23 +78,36 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
     private String eventTimeTo;
 
     private String eventLocation;
+    private Place place;
 
     private GoogleApiClient mGoogleApiClient;
-//    private AutoCompleteAdapter mAdapter;
-    @Override
+
+    private boolean eventAdded;
+
+    private String formatDateTime(int year, int month, int day, int hour, int minute, int modifierMinute){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hour, minute);
+        long millis = cal.getTimeInMillis();
+        millis = millis + modifierMinute*60*1000;
+        cal.setTimeInMillis(millis);
+        String YYYY = new Integer(cal.get(Calendar.YEAR)).toString();
+        String MM = new Integer(cal.get(Calendar.MONTH)).toString();
+        if (MM.length() == 1) MM="0"+MM;
+        String DD = new Integer(cal.get(Calendar.DAY_OF_MONTH)).toString();
+        if (DD.length()==1) DD="0"+DD;
+        String hh = new Integer(cal.get(Calendar.HOUR_OF_DAY)).toString();
+        if (hh.length()==1) hh="0"+hh;
+        String mm = new Integer(cal.get(Calendar.MINUTE)).toString();
+        if (mm.length()==1) mm="0"+mm;
+        return YYYY+"-"+MM+"-"+DD+" "+hh+":"+mm+":"+"00";
+    }
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
+        eventAdded = false;
         //EditText Name
         textName = (EditText) findViewById(R.id.create_event_name);
         //EditText Description
@@ -112,43 +135,168 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
                 locationPickerInner();
             }
         });
-        //button add
-
-        /*btnAdd = (Button) findViewById(R.id.btn_add_event);
-        //button cancel
-        btnCancel = (Button) findViewById(R.id.btn_cancel_create);*/
-
-/*        final Button button = (Button) findViewById(R.id.btn_create_event);
-        button.setOnClickListener(new View.OnClickListener() {
+        //button add /////////////////////////////////////////////////////////////////////
+        fabAddMeeting = (FloatingActionButton) findViewById(R.id.fab_add_event);
+        fabAddMeeting.setOnClickListener(new View.OnClickListener(){
+            @Override
             public void onClick(View v) {
-          ApiClient.Builder(this).addApi(AppIndex.API).build();*/
+                //if (!validator()){return;}
+                if (!eventAdded) {
+                    addCalendarEvent();
+                    eventAdded = true;
+                }
+                ///////////////////////////////////////////////////////////////////////////////////
+                //
+                //   VOLLEY START
+                //
+                ///////////////////////////////////////////////////////////////////////////////////
+                //Remote db
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("name",eventName);
+                    jsonObject.put("id_owner",appInstance.myDBHandler.getUser());
+                    jsonObject.put("description",""+eventDescription);
+                    jsonObject.put("location",place.getLatLng().toString());
+                    jsonObject.put("time_pre",formatDateTime(year, month, day, hourStart, minuteStart, -15));
+                    jsonObject.put("time_post",formatDateTime(year, month ,day, hourStart, minuteStart, 15));
+                    jsonObject.put("time_start",formatDateTime(year, month ,day, hourStart, minuteStart, 0));
+                    if (hourEnd != -1)
+                        jsonObject.put("time_end",formatDateTime(year, month ,day, hourStart, minuteStart, 15));
+                    else jsonObject.put("time_end",formatDateTime(year, month ,day, hourEnd, minuteEnd, 0));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JsonRequestHelper request = new JsonRequestHelper(
+                        Request.Method.POST,
+                        appInstance.remoteDBHandler.apiMeetingURL(),
+                        jsonObject,
+                        appInstance.myDBHandler.getToken(),
+                        appInstance.myDBHandler.getUser(),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                int id = -1;
+                                try {
+                                    id = response.getInt("id");
+                                } catch (JSONException e){
+                                    e.printStackTrace();
+                                }
+                                mailMember.add(appInstance.myDBHandler.getUser());
+                                for (int i=0; i<mailMember.size(); i++){
+                                    JSONObject mJson = new JSONObject();
+                                    try {
+                                        mJson.put("id_meeting", id);
+                                        mJson.put("id_user", mailMember.get(i));
+                                        mJson.put("id_owner", appInstance.myDBHandler.getUser());
+                                    } catch (JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    JsonRequestHelper innerRequest = new JsonRequestHelper(
+                                            Request.Method.POST,
+                                            appInstance.remoteDBHandler.apiMeetingURL(appInstance.myDBHandler.getUser(), new Integer(id).toString(), null),
+                                            mJson,
+                                            appInstance.myDBHandler.getToken(),
+                                            appInstance.myDBHandler.getUser(),
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+                                                    //NOTHING TODO
+                                                }
+                                            },
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Log.e("2 error pre: ", "yop" /*new Integer(error.networkResponse.statusCode).toString()*/);
+                                                    if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        Log.e("2 error post: ", String.valueOf(error.networkResponse.statusCode));
+                                                        //*
+                                                        switch (error.networkResponse.statusCode) {
+                                                            case 400:
+                                                                Log.e("2 message 400 : ", getResources().getString(R.string.server_error));
+                                                                Log.e("2 token 400 : ", appInstance.myDBHandler.getToken());
+                                                                Log.e("2 user 400 : ", appInstance.myDBHandler.getUser());
+                                                                break;
+                                                            case 500:
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                                                                break;
+                                                        }/**/
+                                                    }
+                                                }
+                                            }
+                                    );
+
+                                    innerRequest.setPriority(Request.Priority.HIGH);
+                                    appInstance.remoteDBHandler.add(innerRequest);
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("First error pre: ", "yop" /*new Integer(error.networkResponse.statusCode).toString()*/);
+                                if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Log.e("First error post: ", String.valueOf(error.networkResponse.statusCode));
+                                    //*
+                                    switch (error.networkResponse.statusCode) {
+                                        case 400:
+                                            Log.e("1 message 400 : ", getResources().getString(R.string.server_error));
+                                            Log.e("1 token 400 : ", appInstance.myDBHandler.getToken());
+                                            Log.e("1 user 400 : ", appInstance.myDBHandler.getUser());
+                                            break;
+                                        case 500:
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                                            break;
+                                    }/**/
+                                }
+                            }
+                        }
+                );
+
+                request.setPriority(Request.Priority.HIGH);
+                appInstance.remoteDBHandler.add(request);
+                ///////////////////////////////////////////////////////////////////////////////////
+                //
+                //   VOLLEY END
+                //
+                ///////////////////////////////////////////////////////////////////////////////////
+            }
+        });
+        // calendar manager
+
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    public void addCalendarEvent(){
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hourStart, minuteStart);
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", cal.getTimeInMillis());
+        intent.putExtra("allDay", false);
+        if (hourEnd != -1 && minuteEnd != -1){
+            cal.set(year, month, day, hourEnd, minuteEnd);
+            intent.putExtra("endTime", cal.getTimeInMillis());
+        } else {
+            intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
         }
-
-        return super.onOptionsItemSelected(item);
-    }*/
+        intent.putExtra("title", eventName);
+        intent.putExtra("description", eventDescription);
+        intent.putExtra("eventLocation", place.getAddress());
+        startActivity(intent);
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        appInstance.tmpHourStart = -1;
+        appInstance.tmpMinuteStart = -1;
+        appInstance.tmpHourEnd = -1;
+        appInstance.tmpMinuteEnd = -1;
     }
 
     private void registerMeeting() {
@@ -164,8 +312,11 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment picker = new DatePickerFragment();
+                //DialogFragment picker = new DatePickerFragment();
+                //picker.show(getSupportFragmentManager(), "datePicker");
+                DatePickerFragment picker = new DatePickerFragment();
                 picker.show(getSupportFragmentManager(), "datePicker");
+                DatePicker pick = picker.getDatePicker();
                 year = appInstance.tmpYear;
                 appInstance.tmpYear = -1;
                 month = appInstance.tmpMonth;
@@ -189,17 +340,21 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
                 DialogFragment pickerStart = new TimePickerFragment();
                 pickerStart.show(getSupportFragmentManager(), "timePickerStart");
                 hourStart = appInstance.tmpHourStart;
-                appInstance.tmpHourStart = -1;
+
                 minuteStart = appInstance.tmpMinuteStart;
-                appInstance.tmpMinuteStart = -1;
+
                 appInstance.toggle = true;
                 DialogFragment pickerEnd = new TimePickerFragment();
                 pickerEnd.show(getSupportFragmentManager(), "timePickerEnd");
                 hourEnd = appInstance.tmpHourEnd;
-                appInstance.tmpHourEnd = -1;
+
                 minuteEnd = appInstance.tmpMinuteEnd;
-                appInstance.tmpMinuteEnd = -1;
+
                 appInstance.toggle = false;
+                Toast.makeText(getApplicationContext(), ""+hourStart, Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), ""+minuteStart, Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), ""+hourEnd, Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), ""+minuteEnd, Toast.LENGTH_SHORT);
                 //final check in the validator in order to be sure that the time and date selected is coherent with the current date and time
                 textTimeFrom.setText(new Integer(hourStart).toString() + ":" + new Integer(minuteStart).toString());
                 textTimeTo.setText(new Integer(hourEnd).toString() + ":" + new Integer(minuteEnd).toString());
@@ -267,7 +422,7 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
         }else if (requestCode == PLACE_PICKER_REQUEST) {
             Log.e("lol", "" + resultCode);
             if (resultCode == RESULT_OK){
-                Place place = PlacePicker.getPlace(data, this);
+                place = PlacePicker.getPlace(data, this);
                 Toast.makeText(getApplicationContext(), place.getLatLng().toString(),Toast.LENGTH_LONG).show();
             }
         }
@@ -331,29 +486,21 @@ public class CreateEventActivity extends AppCompatActivity implements GoogleApiC
 
     @Override
     public void onConnected( Bundle bundle ) {
-
+        //NOPE NOT NEEDED
     }
 
     @Override
     public void onConnectionSuspended( int i ) {
-
+        //NOPE NOT NEEDED
     }
 
     @Override
     public void onConnectionFailed( ConnectionResult connectionResult ) {
-
+        //NOPE NOT NEEDED
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
 
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
+
+
 }

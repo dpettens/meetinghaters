@@ -50,6 +50,14 @@ public class RemoteDBHandler {
         return path;
     }
 
+    public String apiMeetingURL(String ownerID, String meetingID, String userID){
+        String path = url + apiMeeting + "/" + ownerID + "/" + meetingID + "/" + "users";
+        if (userID != null){
+            path = path + "/" + userID;
+        }
+        return path;
+    }
+
     public String apiUserURL(){
         return url + apiUser;
     }

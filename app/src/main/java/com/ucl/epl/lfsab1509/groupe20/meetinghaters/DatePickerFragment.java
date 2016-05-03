@@ -18,6 +18,7 @@ public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     MeetingApp mInstance = MeetingApp.getAppInstance();
+    DatePicker mDatePicker;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,13 +27,19 @@ public class DatePickerFragment extends DialogFragment
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        mDatePicker = dialog.getDatePicker();
+        return dialog;
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         mInstance.tmpYear = year;
         mInstance.tmpMonth = month;
         mInstance.tmpDay = day;
+    }
+
+    public DatePicker getDatePicker(){
+        return mDatePicker;
     }
 
 }
