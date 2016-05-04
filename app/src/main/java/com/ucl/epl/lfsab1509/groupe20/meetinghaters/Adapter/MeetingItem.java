@@ -5,13 +5,15 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
  */
 public class MeetingItem {
 
+    private String id;
     private String name;
     private String description;
     private String start;     // can be modified in order to use a custom object for the date
     private String end;       // can be modified in order to use a custom object for the date
 
 
-    public MeetingItem(String name, String description, String start, String end){
+    public MeetingItem(String id, String name, String description, String start, String end){
+        this.id = id;
         this.name = name;
         this.description = description;
         this.start = start;
@@ -52,6 +54,8 @@ public class MeetingItem {
         this.end = end;
     }
 
-
+    public String getId(){
+        return this.id;
+    }
 
 }

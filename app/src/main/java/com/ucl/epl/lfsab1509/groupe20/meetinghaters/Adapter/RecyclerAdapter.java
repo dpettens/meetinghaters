@@ -1,5 +1,6 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
 
+import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,37 +17,62 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     private List<MeetingItem> meetings;
+    //private LayoutInflater inflater;
 
-    public RecyclerAdapter(List<MeetingItem> meetings) {
+
+    public RecyclerAdapter(/*Context context,*/ List<MeetingItem> meetings) {
+        //inflater = LayoutInflater.from(context);
         this.meetings = new ArrayList<>();
         this.meetings.addAll(meetings);
     }
+
 
     @Override
     public MeetingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext())
                                       .inflate(R.layout.cv_meeting_list_element, viewGroup, false);
+        //View itemView = inflater.inflate(R.layout.cv_meeting_list_element, viewGroup, false);
         return new MeetingViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MeetingViewHolder meetingViewHolder, int i){
         MeetingItem meetingItem = meetings.get(i);
+        meetingViewHolder.idText.setText(meetingItem.getId());
         meetingViewHolder.nameText.setText(meetingItem.getName());
         meetingViewHolder.descText.setText(meetingItem.getDescription());
         meetingViewHolder.startText.setText(meetingItem.getStart());
         meetingViewHolder.endText.setText(meetingItem.getEnd());
+
         //meetingViewHolder.card.setCardBackgroundColor(/*int color*/);
     }
 
     @Override
     public int getItemCount(){
+        if (meetings == null) return 0;
         return meetings.size();
     }
 
+    @UiThread
     public void swap(ArrayList<MeetingItem> meetings){
-        meetings.clear();
+        this.meetings.clear();
         meetings.addAll(meetings);
+        notifyDataSetChanged();
+        //dataSetChanged();
+        //runOnUiThread(new Runnable(){...})
+    }
+
+    /*@UiThread
+    public void dataSetChanged(){
+        notifyDataSetChanged();
+    }*/
+    public void addItem(MeetingItem item){
+        meetings.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void clear(){
+        meetings.clear();
         notifyDataSetChanged();
     }
 

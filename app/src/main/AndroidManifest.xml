@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission..ACCESS_COARSE_LOCATION" />
 
     <!-- OpenGL for Place Picker -->
     <uses-feature
@@ -69,6 +70,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Base.AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".MapViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.AppTheme.NoActionBar">
+        </activity>
+        <service
+        android:name=".BgServiceIntent"
+        android:exported="false" />
     </application>
 </manifest>
 

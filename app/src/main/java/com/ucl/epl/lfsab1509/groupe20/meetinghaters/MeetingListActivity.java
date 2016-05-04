@@ -19,7 +19,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter.MeetingItem;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter.RecyclerAdapter;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.DB.JsonArrayRequestHelper;
@@ -39,13 +38,15 @@ public class MeetingListActivity extends AppCompatActivity {
     private ArrayList<MeetingItem> meetings = new ArrayList<>();
 
     private RecyclerAdapter recyclerAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_list);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.meeting_recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.meeting_recyclerView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -58,18 +59,21 @@ public class MeetingListActivity extends AppCompatActivity {
             }
         });
 
-        recyclerAdapter = new RecyclerAdapter(meetings);
-
+        recyclerAdapter = new RecyclerAdapter(/*getApplicationContext(),*/ meetings);
+        generateMeetingList();
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.meeting_swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 updateMeetings();
                 recyclerAdapter.swap(meetings);
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
 
         recyclerView.setAdapter(recyclerAdapter);
+        updateMeetings();
+
     }
 
     @Override
@@ -80,6 +84,8 @@ public class MeetingListActivity extends AppCompatActivity {
 
     private void generateMeetingList(){
         //We generate the list of meeting in this place
+        //meetings.clear();
+        recyclerAdapter.clear();
         JsonArrayRequestHelper request = new JsonArrayRequestHelper(
                 Request.Method.GET,
                 appInstance.remoteDBHandler.apiMeetingURL(),
@@ -89,22 +95,30 @@ public class MeetingListActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.e(TAG, "success length response :: "+ response.length() );
+                        Log.e(TAG, "success length response :: " + response.length());
                         for (int i=0; i<response.length(); i++){
                             try {
                                 JSONObject jsonObject = response.getJSONObject(i);
+                                Log.e(TAG, "my json : " + jsonObject.toString());
                                 MeetingItem meetingItem = new MeetingItem(
+                                        jsonObject.getString("_id"),
                                         jsonObject.getString("name"),
-                                        jsonObject.getString("description"),
+                                        //jsonObject.getString("description"),
+                                        "new desc",
                                         jsonObject.getString("time_start"),
                                         jsonObject.getString("time_end"));
-                                meetings.add(meetingItem);
+                                //meetings.add(meetingItem);
+                                recyclerAdapter.addItem(meetingItem);
+                                Log.e(TAG, "size equal " + meetings.size());
                             } catch (JSONException jsonex) {
                                 jsonex.printStackTrace();
                             }
                         }
-                        Log.e(TAG, "success :: "+ meetings.toString());
-                        recyclerAdapter.swap(meetings);
+                        Log.e(TAG, "success :: " + meetings.toString());
+                        //recyclerAdapter.swap(meetings);
+                        //recyclerAdapter.dataSetChanged();
+
+                        recyclerView.setAdapter(recyclerAdapter);
                     }
                 },
                 new Response.ErrorListener() {

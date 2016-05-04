@@ -11,6 +11,8 @@ import com.ucl.epl.lfsab1509.groupe20.meetinghaters.DB.RemoteDBHandler;
 public class MeetingApplication extends Application {
     private static final String TAG = "MeetingApp";
 
+
+    public String currentMeeting;
     private static MeetingApplication appInstance;
 
     // sqlite db
@@ -41,6 +43,10 @@ public class MeetingApplication extends Application {
         }
 
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent bckService = new Intent(this, BgServiceIntent.class);
+        bckService.putExtra("username", appInstance.myDBHandler.getUser());
+        bckService.putExtra("token", appInstance.myDBHandler.getToken());
+        startService(bckService);
         startActivity(i);
     }
 

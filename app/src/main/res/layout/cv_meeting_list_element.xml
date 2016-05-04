@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     card_view:cardCornerRadius="0dp"
-    android:layout_margin="1dp">
+    android:layout_margin="1dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:id="@+id/cardBackground"
@@ -47,6 +48,19 @@
                 android:layout_marginLeft="10px"
                 android:layout_marginTop="10px"
                 android:textSize="35px"
+                />
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="id"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="10px"
+                android:textSize="35px"
+                android:visibility="invisible"
                 />
 
             <!-- TODO: List of icon to quickly show member of the meetings  -->
