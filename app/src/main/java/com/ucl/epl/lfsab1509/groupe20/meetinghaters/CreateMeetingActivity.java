@@ -384,7 +384,7 @@ public class CreateMeetingActivity extends AppCompatActivity implements
         email.setType("text/plain");
         email.putExtra(Intent.EXTRA_EMAIL, mailMember.toArray(new String[mailMember.size()]));
         email.putExtra(Intent.EXTRA_SUBJECT, "MeetingHaters : You have a new meeting");
-        email.putExtra(Intent.EXTRA_TEXT, "Ceci est un test de notre application de merde");
+        email.putExtra(Intent.EXTRA_TEXT, "La personne suivante : " + appInstance.myDBHandler.getUser() + " vous a ajouté à un meeting via l'application MeetingHaters");
 
         try {
             startActivity(Intent.createChooser(email, "Choose an Email client"));
