@@ -19,10 +19,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter.MeetingItem;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter.RecyclerAdapter;
+import com.ucl.epl.lfsab1509.groupe20.meetinghaters.DB.JsonArrayRequestHelper;
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.DB.JsonRequestHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,6 +36,9 @@ public class MeetingListActivity extends AppCompatActivity {
     MeetingApplication appInstance = MeetingApplication.getAppInstance();
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ArrayList<MeetingItem> meetings = new ArrayList<>();
+
+    private RecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +58,18 @@ public class MeetingListActivity extends AppCompatActivity {
             }
         });
 
+        recyclerAdapter = new RecyclerAdapter(meetings);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.meeting_swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 updateMeetings();
+                recyclerAdapter.swap(meetings);
             }
         });
 
-        recyclerView.setAdapter(new RecyclerAdapter(generateMeetingList()));
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     @Override
@@ -68,36 +78,57 @@ public class MeetingListActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    private ArrayList<MeetingItem> generateMeetingList(){
-
-        ArrayList<MeetingItem> meetings = new ArrayList<>();
+    private void generateMeetingList(){
         //We generate the list of meeting in this place
-        /*
-        JsonRequestHelper request = new JsonRequestHelper(
+        JsonArrayRequestHelper request = new JsonArrayRequestHelper(
                 Request.Method.GET,
                 appInstance.remoteDBHandler.apiMeetingURL(),
                 null, //GET REQUEST so no JSONObject to pass
                 appInstance.myDBHandler.getToken(),
                 appInstance.myDBHandler.getUser(),
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        //TODO
+                    public void onResponse(JSONArray response) {
+                        Log.e(TAG, "success length response :: "+ response.length() );
+                        for (int i=0; i<response.length(); i++){
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                MeetingItem meetingItem = new MeetingItem(
+                                        jsonObject.getString("name"),
+                                        jsonObject.getString("description"),
+                                        jsonObject.getString("time_start"),
+                                        jsonObject.getString("time_end"));
+                                meetings.add(meetingItem);
+                            } catch (JSONException jsonex) {
+                                jsonex.printStackTrace();
+                            }
+                        }
+                        Log.e(TAG, "success :: "+ meetings.toString());
+                        recyclerAdapter.swap(meetings);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //TODO
+                        Log.e(TAG, "error volley " + error.networkResponse.statusCode);
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        } else {
+                            switch (error.networkResponse.statusCode) {
+                                case 500:
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
                     }
                 }
-        );//*/
-        /*meetings.add(new MeetingItem("P4", "A short meeting", "Start at 12h20", "End at 12h30", "Reaumur"));
-        meetings.add(new MeetingItem("P4 Assistant", "Another short meeting", "Start at 14h20", "End at 14h35", "Paul Otlet"));*/
-        return meetings;
+        );
+        request.setPriority(Request.Priority.HIGH);
+        appInstance.remoteDBHandler.add(request);
     }
 
     private void updateMeetings() {
+        generateMeetingList();
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

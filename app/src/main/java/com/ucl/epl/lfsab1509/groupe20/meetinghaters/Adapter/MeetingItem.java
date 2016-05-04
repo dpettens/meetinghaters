@@ -9,15 +9,13 @@ public class MeetingItem {
     private String description;
     private String start;     // can be modified in order to use a custom object for the date
     private String end;       // can be modified in order to use a custom object for the date
-    private String location;  // can be modified in order to use a custom object for the laction
 
 
-    public MeetingItem(String name, String description, String start, String end, String location){
+    public MeetingItem(String name, String description, String start, String end){
         this.name = name;
         this.description = description;
         this.start = start;
         this.end = end;
-        this.location = location;
     }
 
 
@@ -44,14 +42,6 @@ public class MeetingItem {
 
     public void setStart(String start) {
         this.start = start;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getEnd() {

@@ -36,7 +36,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         meetingViewHolder.descText.setText(meetingItem.getDescription());
         meetingViewHolder.startText.setText(meetingItem.getStart());
         meetingViewHolder.endText.setText(meetingItem.getEnd());
-        meetingViewHolder.locationText.setText(meetingItem.getLocation());
         //meetingViewHolder.card.setCardBackgroundColor(/*int color*/);
     }
 
@@ -44,4 +43,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     public int getItemCount(){
         return meetings.size();
     }
+
+    public void swap(ArrayList<MeetingItem> meetings){
+        meetings.clear();
+        meetings.addAll(meetings);
+        notifyDataSetChanged();
+    }
+
 }
