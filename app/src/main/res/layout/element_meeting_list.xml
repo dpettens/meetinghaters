@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:clickable="true"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,20 +14,15 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
 
         <TextView
             android:id="@+id/meeting_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="id"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/primary_text_light"
-            android:layout_marginLeft="10px"
-            android:layout_marginTop="10px"
-            android:textSize="35px"
-            android:visibility="invisible"
-            />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/meeting_name"
@@ -41,16 +36,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/meeting_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="right|top"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="12sp"/>
 </RelativeLayout>
 
     <!--

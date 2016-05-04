@@ -38,15 +38,15 @@ public class MeetingApplication extends Application {
         Intent i;
         if (myDBHandler.isRegistered() != null) {
             i = new Intent(MeetingApplication.this, MeetingListActivity.class);
+            Intent bckService = new Intent(this, BgServiceIntent.class);
+            bckService.putExtra("username", appInstance.myDBHandler.getUser());
+            bckService.putExtra("token", appInstance.myDBHandler.getToken());
+            startService(bckService);
         } else {
             i = new Intent(MeetingApplication.this, SignUpActivity.class);
         }
 
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Intent bckService = new Intent(this, BgServiceIntent.class);
-        bckService.putExtra("username", appInstance.myDBHandler.getUser());
-        bckService.putExtra("token", appInstance.myDBHandler.getToken());
-        startService(bckService);
         startActivity(i);
     }
 

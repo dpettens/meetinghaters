@@ -31,7 +31,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     public MeetingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext())
                                       .inflate(R.layout.element_meeting_list, viewGroup, false);
-        //View itemView = inflater.inflate(R.layout.cv_meeting_list_element, viewGroup, false);
         return new MeetingViewHolder(itemView);
     }
 
@@ -41,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         meetingViewHolder.idText.setText(meetingItem.getId());
         meetingViewHolder.nameText.setText(meetingItem.getName());
         meetingViewHolder.descriptionText.setText(meetingItem.getDescription());
-        meetingViewHolder.timeText.setText(meetingItem.getStart() + " - " + meetingItem.getEnd());
+       // meetingViewHolder.timeText.setText(meetingItem.getStart() + " - " + meetingItem.getEnd());
     }
 
     @Override
