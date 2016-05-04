@@ -30,21 +30,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public MeetingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext())
-                                      .inflate(R.layout.cv_meeting_list_element, viewGroup, false);
+                                      .inflate(R.layout.element_meeting_list, viewGroup, false);
         //View itemView = inflater.inflate(R.layout.cv_meeting_list_element, viewGroup, false);
         return new MeetingViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MeetingViewHolder meetingViewHolder, int i){
+    public void onBindViewHolder(MeetingViewHolder meetingViewHolder, int i) {
         MeetingItem meetingItem = meetings.get(i);
         meetingViewHolder.idText.setText(meetingItem.getId());
         meetingViewHolder.nameText.setText(meetingItem.getName());
-        meetingViewHolder.descText.setText(meetingItem.getDescription());
-        meetingViewHolder.startText.setText(meetingItem.getStart());
-        meetingViewHolder.endText.setText(meetingItem.getEnd());
-
-        //meetingViewHolder.card.setCardBackgroundColor(/*int color*/);
+        meetingViewHolder.descriptionText.setText(meetingItem.getDescription());
+        meetingViewHolder.timeText.setText(meetingItem.getStart() + " - " + meetingItem.getEnd());
     }
 
     @Override

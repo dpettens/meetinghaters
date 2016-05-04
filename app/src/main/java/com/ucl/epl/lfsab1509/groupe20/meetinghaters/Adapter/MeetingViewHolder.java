@@ -1,9 +1,9 @@
 package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
 
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ucl.epl.lfsab1509.groupe20.meetinghaters.MapViewActivity;
@@ -14,30 +14,24 @@ import com.ucl.epl.lfsab1509.groupe20.meetinghaters.R;
  * Created by ludovic on 23/03/16.
  */
 public class MeetingViewHolder extends RecyclerView.ViewHolder {
-
-    protected TextView nameText;
-    protected TextView descText;
-    protected TextView startText;
-    protected TextView endText;
-    protected TextView locationText;
+    protected RelativeLayout meeting;
     protected TextView idText;
-
-    protected CardView card;
+    protected TextView nameText;
+    protected TextView descriptionText;
+    protected TextView timeText;
 
     protected MeetingApplication appInstance = MeetingApplication.getAppInstance();
 
-    public MeetingViewHolder(View itemView){
+    public MeetingViewHolder(View itemView) {
         super(itemView);
 
-        idText = (TextView) itemView.findViewById(R.id.id);
+        idText = (TextView) itemView.findViewById(R.id.meeting_id);
         nameText = (TextView) itemView.findViewById(R.id.meeting_name);
-        descText = (TextView) itemView.findViewById(R.id.meeting_description);
-        startText = (TextView) itemView.findViewById(R.id.meeting_start);
-        endText = (TextView) itemView.findViewById(R.id.meeting_end);
-        locationText = (TextView) itemView.findViewById(R.id.meeting_location);
+        descriptionText = (TextView) itemView.findViewById(R.id.meeting_description);
+        timeText = (TextView) itemView.findViewById(R.id.meeting_time);
 
-        card = (CardView) itemView;
-        card.setOnClickListener(new View.OnClickListener() {
+        meeting = (RelativeLayout) itemView.findViewById(R.id.meeting);
+        meeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO MODIFY TO LET THE DESCRIPTION

@@ -1,57 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/meeting_name"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/meeting_description"
-        android:layout_below="@id/meeting_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/year"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content" />
-
-</RelativeLayout>-->
-
-<android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/meeting_card"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/meeting"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="0dp"
-    card_view:cardCornerRadius="0dp">
+    android:focusable="true"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
-        android:id="@+id/cardBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="100">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
 
-        <!-- TODO: Button for Status to Add-->
+        <TextView
+            android:id="@+id/meeting_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="id"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/primary_text_light"
+            android:layout_marginLeft="10px"
+            android:layout_marginTop="10px"
+            android:textSize="35px"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/meeting_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+        <TextView
+            android:id="@+id/meeting_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/meeting_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="right|top"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="12sp"/>
+</RelativeLayout>
+
+    <!--
+
+    <TextView
+            android:id="@+id/meeting_name"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/meeting_description"
+            android:layout_below="@id/meeting_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/year"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/meeting_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        card_view:cardCornerRadius="0dp">
+
+        <LinearLayout
+            android:id="@+id/cardBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            --><!-- TODO: Button for Status to Add--><!--
 
         <LinearLayout
             android:id="@+id/cardMeetingEssential"
@@ -85,7 +127,7 @@
                 android:textSize="35px"
                 />
 
-            <!-- TODO: List of icon to quickly show member of the meetings  -->
+            --><!-- TODO: List of icon to quickly show member of the meetings  --><!--
 
         </LinearLayout>
 
@@ -135,7 +177,7 @@
 
     </LinearLayout>
 
-    <!--
+    --><!--
     <RelativeLayout
         android:id="@+id/cardBackground"
         android:layout_width="match_parent"
@@ -166,6 +208,6 @@
             android:layout_alignStart="@+id/name" />
 
     </RelativeLayout>
-    -->
+    --><!--
 
-</android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>-->
