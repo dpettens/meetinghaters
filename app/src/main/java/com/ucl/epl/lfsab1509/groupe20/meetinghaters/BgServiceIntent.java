@@ -69,25 +69,27 @@ public class BgServiceIntent extends IntentService {
                         jsonLocation,
                         appInstance.myDBHandler.getToken(),
                         appInstance.myDBHandler.getUser(),
-                new Response.Listener<JSONObject>(){
-                    @Override
-                    public void onResponse(JSONObject response) {
+                        new Response.Listener<JSONObject>(){
+                            @Override
+                            public void onResponse(JSONObject response) {
                                 //NOTHING TO DO
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError){
+                            }
+                        },
+                        new Response.ErrorListener(){
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                if (error instanceof TimeoutError || error instanceof NoConnectionError){
                                     //Log.e("on error: ", getResources().getString(R.string.connection_error));
-                            Log.e("on error: ", "nope, timeout or no connection");
-                        } else if (error.networkResponse.statusCode == 500){
+                                    Log.e("on error: ", "nope, timeout or no connection");
+                                } else if (error.networkResponse.statusCode == 500){
                                     //Log.e("on error 500: ", getResources().getString(R.string.connection_error));
-                            Log.e("on error 500: ", ",nope 500 error");
+                                    Log.e("on error 500: ", ",nope 500 error");
+                                }
+                            }
                         }
-                    }
-                }
                 );
+                requestLocation.setPriority(Request.Priority.HIGH);
+                appInstance.remoteDBHandler.add(requestLocation);
             } catch (InterruptedException e){
                 e.printStackTrace();
             }
