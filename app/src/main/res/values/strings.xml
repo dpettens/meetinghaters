@@ -1,40 +1,74 @@
 <resources>
-    <string name="google_api">AIzaSyBqLSHlp09TBQ4l46CU3adrEKcVWla4HGI</string>
+    <!-- General -->
+    <string name="validate_error_message">Please correct the errors and try again !</string>
 
+    <!-- App and Activity name -->
     <string name="app_name">Meeting Haters</string>
-    <string name="main_activity_label">My Meetings</string>
+    <string name="meetingListActivity_name">My Meetings</string>
+    <string name="createMeetingActivity_name">Create Meeting</string>
 
-    <string name="name_edit_text">Name</string>
+    <!-- Menu -->
+    <string name="menu_create">Create Meeting</string>
+    <string name="menu_delete_account">Delete My Account</string>
+    <string name="menu_delete_account_message_dialog">Delete Account…</string>
+    <string name="menu_signout">Sign Out</string>
+
+    <!-- SignUpActivity And SignInActivity-->
+    <string name="last_name_edit_text">Last Name</string>
     <string name="first_name_edit_text">First Name</string>
     <string name="email_edit_text">Email</string>
     <string name="password_edit_text">Password</string>
-    <string name="signup_button">Create Account</string>
 
-    <string name="app_error_message">An error has occurred. Please try again later !</string>
-    <string name="signup_error_message">Please correct the errors and try again !</string>
-    <string name="signup_message_dialog">Creating Account...</string>
-    <string name="name_error">At least 2 characters</string>
+    <string name="btn_photo">Take a Photo (Optional)</string>
+    <string name="btn_signin">Sign In</string>
+    <string name="btn_signup">Create Account</string>
+    <string name="link_signup">No account yet ? Create one</string>
+    <string name="link_signin">Already a member ? Sign in</string>
+    <string name="signup_message_dialog">Creating Account…</string>
+    <string name="signin_message_dialog">Authenticating…</string>
+
+    <string name="last_name_error">At least 2 characters</string>
     <string name="first_name_error">At least 2 characters</string>
     <string name="email_error">Enter a valid email address</string>
     <string name="password_error">Between 4 and 20 alphanumeric characters</string>
+    <string name="camera_error">Failed to capture photo</string>
+
+
+    <!-- Remote DB -->
     <string name="connection_error">Connection issue, try again later or be sure to be connected to internet</string>
-    <string name="db_user_exist_error">A user with this email already exist</string>
     <string name="server_error">An unexpected error occurs with the server. Please try again later</string>
+    <string name="db_user_exist_error">A user with this email already exist</string>
+    <string name="db_user_notfound_error">Any user with this email already exist</string>
+    <string name="db_wring_password_error">The password is wrong</string>
 
-    <string name="title_create_event">Create Event</string>
-    <string name="error_register_meeting">There is missing element. Please add the missing elements</string>
+    <!-- CreateMeetingActivity -->
+    <string name="meeting_date_title">Date :</string>
+    <string name="meeting_date_subtitle">Click to select date</string>
+    <string name="meeting_time_start_title">Form :</string>
+    <string name="meeting_time_start_subtitle">Start time</string>
+    <string name="meeting_time_end_title">To :</string>
+    <string name="meeting_time_end_subtitle">End time</string>
+    <string name="meeting_people_title">Member :</string>
+    <string name="meeting_people_subtitle">Add member</string>
+    <string name="meeting_people_changed_subtitle">%1$d member(s)</string>
+    <string name="meeting_location_title">Location :</string>
+    <string name="meeting_location_subtitle">Pick a location</string>
+    <string name="meeting_location_changed_subtitle">Change the location</string>
+
+    <string name="meeting_date">%1$d/%2$d/%3$d</string>
+    <string name="meeting_time">%1$d:%2$d</string>
+
     <string name="meeting_name_missing">We must give a name to your meeting</string>
-    <string name="meeting_select_date">Click to select a date</string>
     <string name="meeting_date_missing">You must select a date to your meeting</string>
-    <string name="meeting_time_from">Start time</string>
-    <string name="meeting_time_to">End time</string>
     <string name="meeting_time_from_missing">You must give a starting time for your meeting</string>
-    <string name="meeting_location">Pick a location</string>
-
     <string name="no_member">You didn\'t add member to the meeting. You will still be able to add them later</string>
     <string name="no_location">You must set a location for the meeting</string>
     <string name="date_too_low">You must select a date in the future.</string>
     <string name="end_before_start">Mismatch in the date. There is an error, please fix it</string>
     <string name="start_before_current">You must select a date in the future. Please fix it</string>
+    <string name="no_email_client">There is no email client installed.</string>
 
+    <!-- ContactPickerActivity -->
+    <string name="txt_done">Done</string>
+    <string name="txt_search">Search</string>
 </resources>

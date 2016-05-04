@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="firebase_url">https://scorching-heat-5714.firebaseio.com</string>
+    <string name="google_api_key">AIzaSyBqLSHlp09TBQ4l46CU3adrEKcVWla4HGI</string>
 </resources>

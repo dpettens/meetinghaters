@@ -1,9 +1,11 @@
-package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
+package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ucl.epl.lfsab1509.groupe20.meetinghaters.R;
 
 import java.util.ArrayList;
 import java.util.List;

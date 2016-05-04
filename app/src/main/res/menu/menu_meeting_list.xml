@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MeetingListActivity">
+
+    <item
+        android:id="@+id/action_signout"
+        android:title="@string/menu_signout"
+        android:orderInCategory="100" />
+    <item
+        android:id="@+id/action_delete_account"
+        android:title="@string/menu_delete_account"
+        android:orderInCategory="200" />
+</menu>

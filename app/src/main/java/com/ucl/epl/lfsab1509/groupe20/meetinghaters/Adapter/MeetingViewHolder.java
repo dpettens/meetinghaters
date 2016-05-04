@@ -1,9 +1,11 @@
-package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
+package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.view.View;
+
+import com.ucl.epl.lfsab1509.groupe20.meetinghaters.R;
 
 /**
  * Created by ludovic on 23/03/16.

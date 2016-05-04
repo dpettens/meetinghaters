@@ -1,1 +1,1 @@
-include ':app', ':volley', ':MultipleContactPicker'
+include ':app', ':volley'

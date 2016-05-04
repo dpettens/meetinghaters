@@ -1,4 +1,4 @@
-package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
+package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Adapter;
 
 /**
  * Created by ludovic on 23/03/16.

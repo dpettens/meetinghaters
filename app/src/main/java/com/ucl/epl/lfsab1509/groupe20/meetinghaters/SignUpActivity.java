@@ -2,12 +2,16 @@ package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -15,15 +19,19 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.ucl.epl.lfsab1509.groupe20.meetinghaters.DB.JsonRequestHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 /*
  * Based on the code of http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  */
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 
     private EditText nameEditText;
     private EditText firstNameEditText;
@@ -34,8 +42,9 @@ public class SignUpActivity extends AppCompatActivity {
     private String firstName;
     private String email;
     private String password;
+    private Bitmap photo;
 
-    private MeetingApp appInstance = MeetingApp.getAppInstance();
+    private MeetingApplication appInstance = MeetingApplication.getAppInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +56,33 @@ public class SignUpActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.text_email);
         passwordEditText = (EditText) findViewById(R.id.text_password);
 
+        Button takePhotoButton = (Button) findViewById(R.id.btn_photo);
+        if (checkDeviceCamera()) {
+            takePhotoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    takePhoto();
+                }
+            });
+        } else {
+            takePhotoButton.setEnabled(false);
+        }
+
         Button signUpButton = (Button) findViewById(R.id.btn_signup);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUp();
+            }
+        });
+
+        TextView signInLink = (TextView)  findViewById(R.id.link_signin);
+        signInLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -62,13 +93,53 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     /*
+     * Retrieve the resulting photo of the camera as a Bitmap object and resize it
+     * see http://developer.android.com/intl/es/reference/android/provider/MediaStore.html#ACTION_IMAGE_CAPTURE
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap tmp = (Bitmap) extras.get("data");
+            this.photo = Bitmap.createScaledBitmap(tmp, 50, 50, true);
+        } else if(resultCode != RESULT_CANCELED) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.camera_error), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /*
+     * Take a photo with the default app
+     */
+    private void takePhoto() {
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(i, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    }
+
+    /*
+     * Check if the device has a camera
+     */
+    private boolean checkDeviceCamera() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    }
+
+    /*
      * Store the new user in the database
      */
     private void signUp() {
+        String photo_encoded = null;
 
         if(! validator()) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_error_message), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.validate_error_message), Toast.LENGTH_LONG).show();
             return;
+        }
+
+        // convert the photo to a base64 string for encoding in the database
+        // see http://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
+        if(this.photo != null) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            this.photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            photo_encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
 
         final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
@@ -76,13 +147,14 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.signup_message_dialog));
         progressDialog.show();
 
-        //Remote db
+        // remote db
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("mail", this.email);
             jsonObject.put("password", this.password);
             jsonObject.put("firstname", this.firstName);
             jsonObject.put("surname", this.name);
+            jsonObject.put("photo", photo_encoded);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -90,13 +162,12 @@ public class SignUpActivity extends AppCompatActivity {
         JsonRequestHelper request = new JsonRequestHelper(
                 Request.Method.POST,
                 appInstance.remoteDBHandler.apiUserURL(),
-                jsonObject, //GET REQUEST so no JSONObject to pass
+                jsonObject,
                 "",
                 "",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("First response: ", response.toString());
                         appInstance.myDBHandler.addUser(email);
 
                         JSONObject innerJsonObject = new JSONObject();
@@ -116,7 +187,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.e("Second response: ", response.toString());
                                         try {
                                             appInstance.myDBHandler.setToken(response.getString("token"));
                                         } catch (JSONException e){
@@ -129,7 +199,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Log.e("Second error: ", error.toString());
                                         progressDialog.hide();
                                         if (error instanceof TimeoutError || error instanceof NoConnectionError){
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
@@ -140,6 +209,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
 
                         );
+
                         innerRequest.setPriority(Request.Priority.HIGH);
                         appInstance.remoteDBHandler.add(innerRequest);
                     }
@@ -147,13 +217,10 @@ public class SignUpActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("First error pre: ", "yop" /*new Integer(error.networkResponse.statusCode).toString()*/);
                         progressDialog.hide();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError){
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         } else {
-                            Log.e("First error post: ", String.valueOf(error.networkResponse.statusCode));
-                            //*
                             switch (error.networkResponse.statusCode) {
                                 case 409:
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.db_user_exist_error), Toast.LENGTH_LONG).show();
@@ -161,7 +228,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 case 500:
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.server_error), Toast.LENGTH_LONG).show();
                                     break;
-                            }/**/
+                            }
                         }
                     }
                 }
@@ -187,12 +254,12 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordEditText.getText().toString();
 
         /*
-         * Check if the name, firstName, email and password are correct following rules
+         * Check if the lastName, firstName, email and password are correct following rules
          * if one input is invalid, set an error message for this input and return false
          * if the input is valid, remove any error message
          */
         if (name.isEmpty() || name.length() < 2) {
-            nameEditText.setError(getString(R.string.name_error));
+            nameEditText.setError(getString(R.string.last_name_error));
             valid = false;
         } else {
             nameEditText.setError(null);

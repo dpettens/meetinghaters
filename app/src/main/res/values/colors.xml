@@ -2,8 +2,11 @@
 <resources>
     <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryDark">#E64A19</color>
-    <color name="colorAccent">#40C4FF</color>
+    <color name="colorAccent">#FFEB3B</color>
+    <color name="textColor">#727272</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="iconColor">#FFFFFF</color>
+    <color name="dividerColor">#B6B6B6</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray">#D3D3D3</color>
 </resources>

@@ -1,10 +1,7 @@
-package com.ucl.epl.lfsab1509.groupe20.meetinghaters;
+package com.ucl.epl.lfsab1509.groupe20.meetinghaters.Fragment;
 
 import java.util.Calendar;
 
-/**
- * Created by ludovic on 1/05/16.
- */
 public class DateObject {
 
     private int hour;
@@ -13,7 +10,7 @@ public class DateObject {
     private int month;
     private int year;
 
-    public DateObject(int hour, int minute, int dayOfMonth, int month, int year){
+    public DateObject(int hour, int minute, int dayOfMonth, int month, int year) {
         this.hour = hour;
         this.minute = minute;
         this.dayOfMonth = dayOfMonth;
@@ -21,18 +18,19 @@ public class DateObject {
         this.year = year;
     }
 
-    public DateObject(Calendar c){
-        this.hour = c.get(Calendar.HOUR_OF_DAY);
-        this.minute = c.get(Calendar.MINUTE);
-        this.dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        this.month = c.get(Calendar.MONTH);
-        this.year = c.get(Calendar.YEAR);
+    public DateObject(Calendar cal) {
+        this.hour = cal.get(Calendar.HOUR_OF_DAY);
+        this.minute = cal.get(Calendar.MINUTE);
+        this.dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        this.month = cal.get(Calendar.MONTH);
+        this.year = cal.get(Calendar.YEAR);
     }
 
-    public DateObject(String dateFormat){
+    public DateObject(String dateFormat) {
         String[] arrayString = dateFormat.split("-");
         String[] hourString = arrayString[0].split(":");
         String[] dateString = arrayString[1].split("/");
+
         this.hour = Integer.parseInt(hourString[0]);
         this.minute = Integer.parseInt(hourString[1]);
         this.dayOfMonth = Integer.parseInt(dateString[0]);
@@ -60,19 +58,16 @@ public class DateObject {
         return dayOfMonth;
     }
 
-    public boolean isPrevious(DateObject date){
-        if (this.year <= date.getYear()){
-            if (this.month <= date.getMonth()){
-                if (this.dayOfMonth <= date.getDayOfMonth()){
+    public boolean isPrevious(DateObject date) {
+        if (this.year <= date.getYear()) {
+            if (this.month <= date.getMonth()) {
+                if (this.dayOfMonth < date.getDayOfMonth())
                     return true;
-                }
+
                 return false;
             }
             return false;
         }
         return false;
     }
-
-
-
 }
