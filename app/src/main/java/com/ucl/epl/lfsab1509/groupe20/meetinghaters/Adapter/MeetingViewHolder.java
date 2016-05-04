@@ -28,7 +28,7 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
         idText = (TextView) itemView.findViewById(R.id.meeting_id);
         nameText = (TextView) itemView.findViewById(R.id.meeting_name);
         descriptionText = (TextView) itemView.findViewById(R.id.meeting_description);
-        timeText = (TextView) itemView.findViewById(R.id.meeting_time);
+        //timeText = (TextView) itemView.findViewById(R.id.meeting_time);
 
         meeting = (RelativeLayout) itemView.findViewById(R.id.meeting);
         meeting.setOnClickListener(new View.OnClickListener() {

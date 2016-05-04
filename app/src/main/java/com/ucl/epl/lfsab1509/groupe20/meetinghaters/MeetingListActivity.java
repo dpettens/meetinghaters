@@ -71,6 +71,7 @@ public class MeetingListActivity extends AppCompatActivity {
             }
         });
 
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerView.setAdapter(recyclerAdapter);
         updateMeetings();
 
